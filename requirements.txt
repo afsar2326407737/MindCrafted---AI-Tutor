@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sentence-transformers
+faiss-cpu
+pdfminer.six
+# google-generativeai
+python-multipart
+python-dotenv
+google-genai
