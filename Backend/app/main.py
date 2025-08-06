@@ -14,6 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.post("/upload-pdf")
 async def upload_pdf(file: UploadFile):
     path = f"syllabus/{file.filename}"
@@ -34,3 +35,8 @@ async def ask_question(question: str = Form(...)):
     context = "\n".join(relevant_chunks)
     answer = gemini_engine.generate_answer(question, context)
     return {"answer": answer}
+
+@app.post('/generate-quiz')
+async def generate_quiz(content: str = Form(...), num_questions: int = Form(5)):
+    quiz = gemini_engine.generate_quiz(content, num_questions)
+    return {"quiz": quiz}
