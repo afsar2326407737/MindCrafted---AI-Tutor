@@ -205,3 +205,38 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+
+# Ignore dependencies
+frontend/node_modules/
+
+# Ignore build output
+frontend/dist/
+frontend/build/
+
+# Ignore environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Ignore log files
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# Ignore editor and OS files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Optional caches
+frontend/.cache/
+frontend/vite-cache/
+
