@@ -26,7 +26,7 @@ const Header = () => {
         {/* Quiz always visible */}
         <Link
           to="/quiz"
-          className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+          className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded shadow hover:from-indigo-700 hover:to-purple-700 transition"
         >
           Quiz
         </Link>
@@ -34,7 +34,7 @@ const Header = () => {
         {/* Chat — requires login */}
         <button
           onClick={handleChatClick}
-          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+          className="px-4 py-2 bg-gradient-to-r from-blue-700 via-cyan-500 to-blue-600 text-white rounded shadow hover:from-blue-800 hover:to-cyan-700 transition"
         >
           Chat
         </button>
@@ -43,14 +43,18 @@ const Header = () => {
           <>
             <Link
               to="/login"
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
+            //   className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded shadow hover:from-blue-700 hover:to-blue-500 transition"
+            // >
+            className="px-4 py-2 bg-gradient-to-r from-blue-400 via-teal-400 to-green-400 text-white rounded shadow-lg hover:from-blue-500 hover:to-green-500 transition"
+  >
               Login
             </Link>
             <Link
               to="/signup"
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-            >
+            //   className="px-4 py-2 bg-gradient-to-r from-teal-600 to-cyan-400 text-white rounded shadow hover:from-teal-700 hover:to-cyan-500 transition"
+            // >
+             className="px-4 py-2 bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 text-white rounded shadow-lg hover:from-blue-400 hover:to-pink-400 transition"
+  >
               Sign Up
             </Link>
           </>
@@ -60,7 +64,7 @@ const Header = () => {
               localStorage.removeItem("token");
               window.location.href = "/";
             }}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            className="px-4 py-2 bg-gradient-to-r from-red-600 to-pink-600 text-white rounded shadow hover:from-red-700 hover:to-pink-700 transition"
           >
             Logout
           </button>

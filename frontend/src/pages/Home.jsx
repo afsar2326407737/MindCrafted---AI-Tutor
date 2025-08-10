@@ -1,50 +1,69 @@
 // src/pages/Home.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("token");
 
+  const [displayedTitle, setDisplayedTitle] = useState("");
+  const title = "Become the Best Version of Yourself";
+
+  useEffect(() => {
+    let words = title.split(" "); // exact words array
+    let current = "";
+
+    const interval = setInterval(() => {
+      if (words.length > 0) {
+        const nextWord = words.shift(); // take first word
+        current = current ? `${current} ${nextWord}` : nextWord;
+        setDisplayedTitle(current);
+      } else {
+        clearInterval(interval); // stop when done
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleChatClick = () => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    } else {
-      navigate("/chat");
-    }
+    navigate(isLoggedIn ? "/chat" : "/login");
   };
 
   const handleQuizClick = () => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    } else {
-      navigate("/quiz");
-    }
+    navigate(isLoggedIn ? "/quiz" : "/login");
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 to-blue-300">
-      {/* Centered Main Content */}
-      <main className="flex flex-1 flex-col items-center justify-center text-center px-4">
-        <h1 className="text-4xl md:text-6xl font-extrabold text-blue-800 mb-4">
-          Become the Best Version of Yourself
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 relative overflow-hidden">
+      
+      {/* Animated Background Circles */}
+      <div className="absolute w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob top-10 left-10"></div>
+      <div className="absolute w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 top-40 right-10"></div>
+      <div className="absolute w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000 bottom-10 left-1/2"></div>
+
+      {/* Centered Content */}
+      <main className="flex flex-1 flex-col items-center justify-center text-center px-4 relative z-10">
+        <h1 className="text-4xl md:text-6xl font-extrabold text-blue-800 mb-4 transition-all duration-500">
+          {displayedTitle}
         </h1>
-        <p className="text-lg md:text-2xl text-gray-700 mb-8">
-          Let's Learn, Grow, and Succeed Together with MindCraft.
+        <p className="text-lg md:text-2xl text-gray-700 mb-8 max-w-2xl">
+          Let's Learn, Grow, and Succeed Together with{" "}
+          <span className="font-bold text-purple-600">MindCraft</span>.
         </p>
 
-        {/* Show buttons only if logged in */}
+        {/* Buttons */}
         {isLoggedIn && (
           <div className="flex flex-col md:flex-row gap-4">
             <button
               onClick={handleChatClick}
-              className="px-6 py-3 bg-purple-500 text-white rounded hover:bg-purple-600"
+              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-all"
             >
               Start Chat
             </button>
             <button
               onClick={handleQuizClick}
-              className="px-6 py-3 bg-orange-500 text-white rounded hover:bg-orange-600"
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-400 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-all"
             >
               Start Quiz
             </button>
@@ -53,9 +72,9 @@ const Home = () => {
       </main>
 
       {/* Footer */}
-   <footer className="text-center py-4 text-gray-600 text-sm">
+      <footer className="text-center py-4 text-gray-600 text-sm relative z-10">
         © {new Date().getFullYear()} MindCraft — Learn Smarter
-   </footer>
+      </footer>
     </div>
   );
 };
