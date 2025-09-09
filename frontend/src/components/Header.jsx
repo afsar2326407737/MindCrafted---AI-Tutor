@@ -15,26 +15,26 @@ const Header = () => {
   };
 
   return (
-    <header className="flex justify-between items-center p-4 bg-white shadow-md">
+    <header className="flex justify-between items-center px-6 py-4 bg-white/90 backdrop-blur-sm shadow-md fixed top-0 left-0 w-full z-50">
       {/* Logo */}
-      <Link to="/" className="text-3xl font-extrabold text-indigo-700">
+      <Link to="/" className="text-2xl font-extrabold text-indigo-700">
         MindCraft
       </Link>
 
       {/* Nav Buttons */}
-      <div className="flex gap-4 items-center">
-        {/* Quiz always visible */}
+      <div className="flex gap-6 items-center">
+        {/* Quiz */}
         <Link
           to="/quiz"
-          className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded shadow hover:from-indigo-700 hover:to-purple-700 transition"
+          className="text-gray-700 font-medium hover:text-indigo-600 hover:underline underline-offset-4"
         >
           Quiz
         </Link>
 
-        {/* Chat — requires login */}
+        {/* Chat */}
         <button
           onClick={handleChatClick}
-          className="px-4 py-2 bg-gradient-to-r from-blue-700 via-cyan-500 to-blue-600 text-white rounded shadow hover:from-blue-800 hover:to-cyan-700 transition"
+          className="text-gray-700 font-medium hover:text-indigo-600 hover:underline underline-offset-4"
         >
           Chat
         </button>
@@ -43,18 +43,14 @@ const Header = () => {
           <>
             <Link
               to="/login"
-            //   className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded shadow hover:from-blue-700 hover:to-blue-500 transition"
-            // >
-            className="px-4 py-2 bg-gradient-to-r from-blue-400 via-teal-400 to-green-400 text-white rounded shadow-lg hover:from-blue-500 hover:to-green-500 transition"
-  >
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-sm hover:bg-indigo-700 transition"
+            >
               Login
             </Link>
             <Link
               to="/signup"
-            //   className="px-4 py-2 bg-gradient-to-r from-teal-600 to-cyan-400 text-white rounded shadow hover:from-teal-700 hover:to-cyan-500 transition"
-            // >
-             className="px-4 py-2 bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 text-white rounded shadow-lg hover:from-blue-400 hover:to-pink-400 transition"
-  >
+              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition"
+            >
               Sign Up
             </Link>
           </>
@@ -64,7 +60,7 @@ const Header = () => {
               localStorage.removeItem("token");
               window.location.href = "/";
             }}
-            className="px-4 py-2 bg-gradient-to-r from-red-600 to-pink-600 text-white rounded shadow hover:from-red-700 hover:to-pink-700 transition"
+            className="px-4 py-2 bg-red-600 text-white rounded-lg shadow-sm hover:bg-red-700 transition"
           >
             Logout
           </button>
