@@ -12,6 +12,14 @@ class User(Base):
     documents = relationship("Document", back_populates="owner")
     quiz_responses = relationship("QuizResponse", back_populates="user")
 
+class ActivityLog(Base):
+    __tablename__ = "activity_logs"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    action = Column(String(50))
+    details = Column(Text)
+    timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+
 class Document(Base):
     __tablename__ = "documents"
     id = Column(Integer, primary_key=True, index=True)
