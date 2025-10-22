@@ -16,6 +16,7 @@ import secrets
 print(secrets.token_urlsafe(32))
 
 app = FastAPI()
+
 vs = vector_store.VectorStore()
 
 app.add_middleware(
@@ -43,20 +44,30 @@ async def startup():
 
 @app.post("/signup", response_model=UserOut)
 async def signup(user: UserCreate, db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(User).where(User.username == user.username))
-    db_user = result.scalar_one_or_none()
-    if db_user:
-        raise HTTPException(status_code=400, detail="Username already taken")
-    result = await db.execute(select(User).where(User.email == user.email))
-    db_email = result.scalar_one_or_none()
-    if db_email:
-        raise HTTPException(status_code=400, detail="Email already registered")
-    hashed_pw = get_password_hash(user.password)
-    new_user = User(username=user.username, email=user.email, hashed_password=hashed_pw)
-    db.add(new_user)
-    await db.commit()
-    await db.refresh(new_user)
-    return new_user
+    try:
+        if len(user.password) > 72:
+            raise HTTPException(status_code=400, detail="Password too long")
+
+        result = await db.execute(select(User).where(User.username == user.username))
+        db_user = result.scalar_one_or_none()
+        if db_user:
+            raise HTTPException(status_code=400, detail="Username already taken")
+
+        result = await db.execute(select(User).where(User.email == user.email))
+        db_email = result.scalar_one_or_none()
+        if db_email:
+            raise HTTPException(status_code=400, detail="Email already registered")
+
+        hashed_pw = get_password_hash(user.password)
+        new_user = User(username=user.username, email=user.email, hashed_password=hashed_pw)
+        db.add(new_user)
+        await db.commit()
+        await db.refresh(new_user)
+        return new_user
+
+    except Exception as e:
+        print("Signup error:", e)
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/token")
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):

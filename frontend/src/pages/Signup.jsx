@@ -8,15 +8,44 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
-    // TODO: Replace with real backend call
-    if (name && email && password) {
-      alert("Signup successful! Please login.");
-      navigate("/login"); // Redirect to login page
-    } else {
+    // Basic input validation
+    if (!name || !email || !password) {
       alert("Please fill in all fields");
+      return;
+    }
+
+    // Additional validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters long");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Signup successful:", data);
+        navigate("/login");
+      } else {
+        alert(data.detail || "Signup failed");
+      }
+    } catch (e) {
+      console.error("Error signing up:", e);
+      alert("Something went wrong. Try again later.");
     }
   };
 

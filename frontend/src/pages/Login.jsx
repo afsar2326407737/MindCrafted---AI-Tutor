@@ -7,15 +7,45 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // TODO: Replace with real backend validation
-    if (email && password) {
-      localStorage.setItem("token", "sample_token");
-      navigate("/chat"); // Redirect to Chat after login
-    } else {
+    // Basic input validation
+    if (!email || !password) {
       alert("Please fill in both fields");
+      return;
+    }
+
+    // Additional validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          username: email, // Backend expects email as 'username' in OAuth2PasswordRequestForm
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store token and redirect
+        localStorage.setItem("token", data.access_token);
+        console.log("Login successful:", data);
+        navigate("/chat");
+      } else {
+        alert(data.detail || "Login failed");
+      }
+    } catch (e) {
+      console.error("Error logging in:", e);
+      alert("Something went wrong. Try again later.");
     }
   };
 
