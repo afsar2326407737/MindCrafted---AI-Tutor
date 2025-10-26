@@ -1,9 +1,42 @@
+# fastapi
+# uvicorn
+# sentence-transformers
+# faiss-cpu
+# pdfminer.six
+# # google-generativeai
+# python-multipart
+# python-dotenv
+# google-genai
+
+
+# newly updated requirements.txt
+# --- FastAPI and Server ---
 fastapi
-uvicorn
-sentence-transformers
-faiss-cpu
-pdfminer.six
-# google-generativeai
+uvicorn[standard]
 python-multipart
 python-dotenv
-google-genai
+
+# --- Database ---
+sqlalchemy
+asyncpg  # if using PostgreSQL; remove if using SQLite/MySQL
+aiosqlite  # optional, for SQLite async support
+
+# --- Authentication & Security ---
+passlib[bcrypt]
+python-jose[cryptography]
+bcrypt
+
+# --- CORS Middleware ---
+fastapi[all]  # includes CORS middleware and dependencies
+
+# --- AI / Embeddings / NLP ---
+sentence-transformers
+faiss-cpu
+google-genai  # replaces the old google-generativeai
+
+# --- PDF Parsing ---
+pdfminer.six
+
+# --- Optional Utilities ---
+requests
+pydantic
